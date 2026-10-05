@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Number Checker 💜 BTS Edition</title>
+  <style>
+    :root {
+      --purple: #7b3fe4;
+      --purple-light: #b794f6;
+      --purple-dark: #3b1a78;
+      --bg: #0d0716;
+      --card: #1a0f2e;
+      --text: #f3ecff;
+      --muted: #b9a6dd;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(123,63,228,.35), transparent 40%),
+        radial-gradient(circle at 85% 90%, rgba(183,148,246,.25), transparent 45%),
+        var(--bg);
+      background-attachment: fixed;
+      color: var(--text);
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    .tag {
+      text-align: center;
+      font-size: .75rem;
+      letter-spacing: .35em;
+      color: var(--purple-light);
+      text-transform: uppercase;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin: 6px 0 4px;
+      letter-spacing: .04em;
+      background: linear-gradient(90deg, #d8c4ff, #9b6dff, #d8c4ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--purple);
+    }
+
+    .sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: .9rem;
+      margin-bottom: 28px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--purple-dark);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 0 30px rgba(123,63,228,.25);
+    }
+
+    label {
+      display: block;
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--purple-light);
+      margin-bottom: 6px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.2rem;
+      color: var(--text);
+      background: #0d0716;
+      border: 1px solid var(--purple);
+      border-radius: 8px;
+      outline: none;
+    }
+    input[type="number"]:focus {
+      box-shadow: 0 0 0 3px rgba(183,148,246,.4);
+    }
+
+    .presets { margin: 14px 0 6px; }
+
+    button {
+      font-family: inherit;
+      padding: 7px 14px;
+      margin: 4px 4px 4px 0;
+      background: transparent;
+      color: var(--purple-light);
+      border: 1px solid var(--purple);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    button:hover { background: var(--purple-dark); color: #fff; }
+
+    #runBtn {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0 0;
+      background: linear-gradient(90deg, #6a2fd1, #9b6dff);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.05rem;
+      font-weight: bold;
+      letter-spacing: .05em;
+    }
+    #runBtn:hover { filter: brightness(1.15); }
+
+    #output {
+      margin-top: 22px;
+      padding: 16px;
+      background: rgba(123,63,228,.12);
+      border: 1px solid var(--purple-dark);
+      border-left: 5px solid var(--purple-light);
+      border-radius: 8px;
+      min-height: 60px;
+      font-size: 1.05rem;
+    }
+    #output small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="tag">Bangtan Edition</div>
+  <h1>💜 Number Checker</h1>
+  <div class="sub">Type a number and let the ARMY of code check it.</div>
+
+  <div class="panel">
+    <label for="numInput">Enter a number</label>
+    <input type="number" id="numInput" value="42" step="any">
+
+    <div class="presets">
+      <button data-v="0">0</button>
+      <button data-v="7">7</button>
+      <button data-v="-5">-5</button>
+      <button data-v="100">100</button>
+      <button data-v="3.14">3.14</button>
+    </div>
+
+    <button id="runBtn">Check Number</button>
+
+    <div id="output">
+      Waiting for input.
+    </div>
+  </div>
+
+  <footer>Borahae 💜 · Built by a learner, powered by purple</footer>
+
+  <script>
+  (function () {
+    var numInput = document.getElementById('numInput');
+    var runBtn   = document.getElementById('runBtn');
+    var output   = document.getElementById('output');
+    var presets  = document.querySelectorAll('button[data-v]');
+
+    function runCheck() {
+      var raw = numInput.value.trim();
+      var n   = Number(raw);
+      var result;
+      var extra = '';
+
+      if (raw === '' || isNaN(n)) {
+        result = 'That is not a valid number.';
+      }
+      else if (n === 0) {
+        result = 'Zero — neither positive nor negative.';
+      }
+      else if (n < 0) {
+        result = 'Negative number.';
+      }
+      else if (n > 1000) {
+        result = 'Large positive number (greater than 1000).';
+      }
+      else if (n === 100) {
+        result = 'Exactly one hundred.';
+      }
+      else if (n < 100) {
+        result = 'Small positive number (1 to 99).';
+      }
+      else {
+        result = 'Positive number (101 to 1000).';
+      }
+
+      // Fun BTS touches
+      if (n === 7)  { extra = '7 members, 1 team 💜'; }
+      if (n === 13) { extra = '13 — the year BTS debuted.'; }
+
+      output.textContent = result;
+      if (extra) {
+        var s = document.createElement('small');
+        s.textContent = extra;
+        output.appendChild(s);
+      }
+    }
+
+    runBtn.addEventListener('click', runCheck);
+
+    numInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); runCheck(); }
+    });
+
+    for (var i = 0; i < presets.length; i++) {
+      presets[i].addEventListener('click', function () {
+        numInput.value = this.getAttribute('data-v');
+        runCheck();
+      });
+    }
+
+    runCheck();
+  })();
+  </script>
+</body>
+</html>
